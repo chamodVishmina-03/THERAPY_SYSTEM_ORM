@@ -22,47 +22,62 @@ import java.util.ResourceBundle;
 
 public class RegistrationController implements Initializable {
 
-    // ===================== FXML Fields =====================
+    //  FXML fields
     @FXML
     private TextField txtId;
+
     @FXML
     private ComboBox<String> cmbPatientId;
+
     @FXML
     private ComboBox<String> cmbProgramId;
+
     @FXML
     private DatePicker dpDate;
 
 
+
+    // btns
     @FXML
     private Button btnSave;
+
     @FXML
     private Button btnDelete;
+
     @FXML
     private Button btnClear;
 
 
 
 
+    // tble view
     @FXML
     private TableView<RegistrationTM> tblReg;
+
     @FXML
     private TableColumn<RegistrationTM, String> colId;
+
     @FXML
     private TableColumn<RegistrationTM, String> colPatient;
+
     @FXML
     private TableColumn<RegistrationTM, String> colProgram;
+
     @FXML
     private TableColumn<RegistrationTM, String> colDate;
+
     @FXML
     private TableColumn<RegistrationTM, Double> colFee;
 
 
 
-    // =====================  BO layer =====================
-    private final RegistrationBO   bo   = BOFactory.getInstance().getBO(BOTypes.REGISTRATION);
-    private final PatientBO        pbo  = BOFactory.getInstance().getBO(BOTypes.PATIENT);
-    private final TherapyProgramBO prbo = BOFactory.getInstance().getBO(BOTypes.THERAPY_PROGRAM);
 
+
+
+    // =====================  BO layer =====================
+    private final RegistrationBO bo = BOFactory.getInstance().getBO(BOTypes.REGISTRATION);
+    private final PatientBO pbo = BOFactory.getInstance().getBO(BOTypes.PATIENT);
+    private final TherapyProgramBO prbo = BOFactory.getInstance().getBO(BOTypes.THERAPY_PROGRAM);
 
 
 
@@ -70,74 +85,100 @@ public class RegistrationController implements Initializable {
     // =====================   initialize   =====================
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Table columns setup
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         colProgram.setCellValueFactory(new PropertyValueFactory<>("programName"));
         colDate.setCellValueFactory(new PropertyValueFactory<>("registrationDate"));
         colFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
-        // Default date = today
-        dpDate.setValue(LocalDate.now());
 
+
+
+        dpDate.setValue(LocalDate.now());
         loadCombos();
         loadTable();
         generateId();
 
-        // Table row select
-        tblReg.getSelectionModel().selectedItemProperty().addListener((o, ov, sel) -> {
-            if (sel != null) {
-                txtId.setText(sel.getId());
-            }
-        });
+
+
+        tblReg.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((o, ov, sel) -> {
+
+                    if (sel != null) {
+                        txtId.setText(sel.getId());
+                    }
+                });
     }
-
-
-
-
-
-
 
     // =============================  helper method   ==========================
 
     private void loadCombos() {
+
         try {
-            cmbPatientId.setItems(FXCollections.observableArrayList(pbo.getAllIds()));
-            cmbProgramId.setItems(FXCollections.observableArrayList(prbo.getAllIds()));
+
+            ObservableList<String> patientIds = FXCollections.observableArrayList(pbo.getAllIds());
+            cmbPatientId.setItems(patientIds);
+
+
+            ObservableList<String> programIds = FXCollections.observableArrayList(prbo.getAllIds());
+            cmbProgramId.setItems(programIds);
+
         } catch (Exception e) {
+
             alert("Failed to load combos: " + e.getMessage());
         }
+
     }
 
 
 
     // Load the table
     private void loadTable() {
+
         try {
-            ObservableList<RegistrationTM> list = FXCollections.observableArrayList();
-            bo.getAll().forEach(d -> list.add(new RegistrationTM(
-                    d.getId(),
-                    d.getPatientName(),
-                    d.getProgramName(),
-                    d.getRegistrationDate().toString(),
-                    d.getFee()
-            )));
+
+            ObservableList<RegistrationTM> list =
+                    FXCollections.observableArrayList();
+
+            bo.getAll().forEach(d -> {
+
+                RegistrationTM tm = new RegistrationTM(
+                        d.getId(),
+                        d.getPatientName(),
+                        d.getProgramName(),
+                        d.getRegistrationDate().toString(),
+                        d.getFee()
+                );
+
+                list.add(tm);
+            });
+
             tblReg.setItems(list);
+
         } catch (Exception e) {
+
             alert(e.getMessage());
         }
     }
 
 
 
-    //========== Generate next id===============
+    //========== generate next id===============
     private void generateId() {
+
         try {
+
             txtId.setText(bo.generateNextId());
+
         } catch (Exception e) {
+
             txtId.setText("REG001");
         }
     }
+
+
 
 
 
@@ -151,39 +192,36 @@ public class RegistrationController implements Initializable {
 
 
 
+
+
+
     // ===================== Alert =====================
     private void alert(String message) {
 
         new Alert(Alert.AlertType.ERROR, message).show();
     }
 
-    private void info(String message){ new
-            Alert(Alert.AlertType.INFORMATION, message).show();
+    private void info(String message) {
+
+        new Alert(Alert.AlertType.INFORMATION, message).show();
     }
 
-    private boolean confirm(String message){
-        return new Alert(Alert.AlertType.CONFIRMATION, message)
-                .showAndWait().filter(b -> b == ButtonType.OK).isPresent();
+    private boolean confirm(String message) {
+
+        return new Alert(Alert.AlertType.CONFIRMATION, message).showAndWait().filter(b -> b == ButtonType.OK).isPresent();
     }
-
-
-
-
 
 
 
 
 
     /** Save  button */
-
     @FXML
     void btnSaveOnAction(ActionEvent e) {
 
-        // Validation
         if (cmbPatientId.getValue() == null || cmbProgramId.getValue() == null || dpDate.getValue() == null) {
             alert("Please fill all required fields.");
             return;
-
         }
 
 
@@ -205,8 +243,8 @@ public class RegistrationController implements Initializable {
             loadTable();
             generateId();
 
-
         } catch (Exception ex) {
+
             alert(ex.getMessage());
         }
 
@@ -220,27 +258,27 @@ public class RegistrationController implements Initializable {
     void btnDeleteOnAction(ActionEvent e) {
 
         if (txtId.getText().isEmpty()) {
+
             alert("Please select a registration from the table.");
+
             return;
         }
 
 
         if (confirm("Are you sure you want to delete registration " + txtId.getText() + "?")) {
 
-
             try {
+
                 bo.delete(txtId.getText());
                 info("Registration deleted successfully!");
                 clear();
                 loadTable();
                 generateId();
 
-
             } catch (Exception ex) {
+
                 alert(ex.getMessage());
             }
-
-
         }
     }
 
@@ -257,22 +295,4 @@ public class RegistrationController implements Initializable {
 
 
 
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
