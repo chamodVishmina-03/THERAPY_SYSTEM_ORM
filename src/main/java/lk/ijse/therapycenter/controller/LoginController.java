@@ -20,93 +20,107 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-
     // ===================== FXML fields =====================
     @FXML
-    private TextField     txtUsername;
+    private TextField txtUsername;
+
     @FXML
     private PasswordField txtPassword;
-    @FXML
-    private TextField     txtPasswordVisible;
-    @FXML
-    private CheckBox      chkShowPassword;
-    @FXML
-    private Label         lblError;
-    @FXML
-    private Button        btnLogin;
 
+    @FXML
+    private TextField txtPasswordVisible;
+
+    @FXML
+    private CheckBox chkShowPassword;
+
+    @FXML
+    private Label lblError;
+
+    @FXML
+    private Button btnLogin;
 
     // ===================== BO layer =====================
-    private final UserBO userBO = BOFactory.getInstance().getBO(BOTypes.USER);
-
-
-
+    private final UserBO userBO =
+            BOFactory.getInstance().getBO(BOTypes.USER);
 
     // ===================== Initialize =====================
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         lblError.setVisible(false);
+
         txtPasswordVisible.setVisible(false);
-        txtPasswordVisible.managedProperty().bind(txtPasswordVisible.visibleProperty());
-        txtPassword.textProperty().addListener((o, ov, nv) -> {
 
-            if (!txtPasswordVisible.getText().equals(nv)) {
-                txtPasswordVisible.setText(nv);
+        txtPasswordVisible.managedProperty().bind(
+                txtPasswordVisible.visibleProperty()
+        );
 
-            }
+        txtPassword.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
 
-        });
+                    if (!txtPasswordVisible.getText().equals(newValue)) {
+
+                        txtPasswordVisible.setText(newValue);
+                    }
+                }
 
 
-        txtPasswordVisible.textProperty().addListener((o, ov, nv) -> {
 
-            if (!txtPassword.getText().equals(nv)) {
+        );
 
-                txtPassword.setText(nv);
-            }
+        txtPasswordVisible.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
 
-        });
+                    if (!txtPassword.getText().equals(newValue)) {
+                        txtPassword.setText(newValue);
+                    }
+                }
 
+
+        );
     }
-
-
-
-
 
 
 
 
     // ===================== btn actions =====================
 
-   //   Show password checkbox
+    //   Show password checkbox
     @FXML
     void chkShowPasswordOnAction(ActionEvent e) {
+
         boolean show = chkShowPassword.isSelected();
+
         txtPassword.setVisible(!show);
         txtPasswordVisible.setVisible(show);
+
     }
+
 
 
     //   Login button
     @FXML
     void btnLoginOnAction(ActionEvent e) {
+
         lblError.setVisible(false);
+
         try {
+
             Optional<UserDTO> user = userBO.login(
                     txtUsername.getText().trim(),
                     txtPassword.getText()
             );
 
-            user.ifPresent(this::loadDashboard);
+            if (user.isPresent()) {
+                loadDashboard(user.get());
+            }
 
         } catch (LoginException ex) {
+
             lblError.setText(ex.getMessage());
             lblError.setVisible(true);
         }
     }
-
-
 
 
 
@@ -115,13 +129,16 @@ public class LoginController implements Initializable {
 
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/view/Dashboard.fxml")
+            );
+
+
             Scene scene = new Scene(loader.load());
 
-
             DashboardController controller = loader.getController();
-            controller.setCurrentUser(user);
 
+            controller.setCurrentUser(user);
 
             Stage stage = (Stage) btnLogin.getScene().getWindow();
             stage.setScene(scene);
@@ -131,26 +148,14 @@ public class LoginController implements Initializable {
 
         } catch (IOException ex) {
 
-            new Alert(Alert.AlertType.ERROR, "Dashboard load failed: " + ex.getMessage()).show();
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Dashboard load failed: " + ex.getMessage()
+            ).show();
         }
-
     }
 
 
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
