@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane style="-fx-padding:20;-fx-background-color:#f0f4f8;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="lk.ijse.therapycenter.controller.PaymentController">
+    <VBox spacing="15" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+      <Label text="Payment Management">
+         <font>
+            <Font name="Calisto MT Bold" size="27.0" />
+         </font>
+      </Label>
+        <GridPane hgap="15" style="-fx-background-color:white;-fx-padding:20;-fx-background-radius:8;" vgap="10">
+            <columnConstraints><ColumnConstraints hgrow="ALWAYS" /><ColumnConstraints hgrow="ALWAYS" /></columnConstraints>
+            <Label text="Payment ID:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <TextField fx:id="txtId" editable="false" style="-fx-background-color:#ecf0f1;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label text="Registration ID: " GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cmbRegistrationId" maxWidth="Infinity" promptText="Select" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="Amount : " GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="txtAmount" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Payment Date: " GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <DatePicker fx:id="dpDate" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <ComboBox fx:id="cmbStatus" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+        <HBox spacing="10">
+            <Button fx:id="btnSave" onAction="#btnSaveOnAction" style="-fx-background-color:#27ae60;-fx-text-fill:white;-fx-font-weight:bold;-fx-padding:8 20;" text="Process Payment" />
+            <Button fx:id="btnUpdate" onAction="#btnUpdateOnAction" style="-fx-background-color:#2980b9;-fx-text-fill:white;-fx-font-weight:bold;-fx-padding:8 20;" text="Update" />
+            <Button fx:id="btnClear" onAction="#btnClearOnAction" style="-fx-background-color:#95a5a6;-fx-text-fill:white;-fx-font-weight:bold;-fx-padding:8 20;" text="Clear" />
+        </HBox>
+        <TableView fx:id="tblPayment" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colId" prefWidth="90" text="Pay ID" />
+                <TableColumn fx:id="colPatient" prefWidth="150" text="Patient" />
+                <TableColumn fx:id="colProgram" prefWidth="200" text="Program" />
+                <TableColumn fx:id="colAmount" prefWidth="120" text="Amount (LKR)" />
+                <TableColumn fx:id="colDate" prefWidth="100" text="Date" />
+                <TableColumn fx:id="colStatus" prefWidth="100" text="Status" />
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>

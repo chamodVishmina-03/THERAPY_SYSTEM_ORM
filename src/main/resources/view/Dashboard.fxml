@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="700" prefWidth="1200" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.therapycenter.controller.DashboardController">
+    <left>
+        <VBox prefWidth="200" spacing="5" style="-fx-background-color: white; -fx-padding: 10;">
+         <Label text="Serenity">
+            <font>
+               <Font name="Copperplate Gothic Light" size="23.0" />
+            </font>
+         </Label>
+         <Label text="Therapy Center">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </Label>
+            <Button fx:id="btnPatient" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnPatientOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Patients" textFill="WHITE">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Button fx:id="btnTherapist" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnTherapistOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Therapists">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Button fx:id="btnProgram" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnProgramOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Programs">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Button fx:id="btnRegistration" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnRegistrationOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Registration">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Button fx:id="btnSession" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnSessionOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Sessions">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Button fx:id="btnPayment" contentDisplay="CENTER" maxWidth="Infinity" onAction="#btnPaymentOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Payments">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Button>
+            <Region prefHeight="33.0" prefWidth="179.0" VBox.vgrow="ALWAYS" />
+            <Button fx:id="btnSettings" maxWidth="Infinity" onAction="#btnSettingsOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Settings" />
+            <Label fx:id="lblUserInfo" style="-fx-text-fill:#aaa;-fx-font-size:10px;-fx-padding:5 0;" text="User" wrapText="true" />
+        </VBox>
+    </left>
+    <center><AnchorPane fx:id="ancMainContainer" style="-fx-background-color:#f0f4f8;" /></center>
+</BorderPane>
