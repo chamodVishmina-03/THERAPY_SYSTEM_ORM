@@ -17,8 +17,16 @@ public class FactoryConfiguration {
     private FactoryConfiguration() {
         Configuration configuration = new Configuration();
 
+
+
         //property file configuration
         configuration.addProperties(loadHibernateProperties());
+
+
+
+
+
+
 
         //   entity classes
         configuration.addAnnotatedClass(User.class);
@@ -35,18 +43,19 @@ public class FactoryConfiguration {
     }
 
 
+
+
+
+
     private Properties loadHibernateProperties() {
         Properties props = new Properties();
 
         try {
-
             props.load(
                 getClass().getClassLoader().getResourceAsStream("hibernate.properties")
             );
 
             System.out.println(" hibernate.properties loaded successfully!");
-
-
 
         } catch (Exception e) {
             System.err.println(" Failed to load hibernate.properties: " + e.getMessage());
@@ -55,12 +64,18 @@ public class FactoryConfiguration {
     }
 
 
+
+
+
+
+
     public static FactoryConfiguration getInstance() {
         if (instance == null) {
             instance = new FactoryConfiguration();
         }
         return instance;
     }
+
 
 
 
