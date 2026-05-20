@@ -112,7 +112,7 @@ public class RegistrationController implements Initializable {
                 });
     }
 
-    // =============================  helper method   ==========================
+
 
     private void loadCombos() {
 

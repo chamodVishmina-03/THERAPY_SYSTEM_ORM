@@ -181,7 +181,7 @@ public class DashboardController implements Initializable {
 
 
 
-    // ===================== helper methods =====================
+
     private void navigateTo(String path) {
 
         try {
@@ -210,6 +210,13 @@ public class DashboardController implements Initializable {
             ).show();
         }
     }
+
+
+
+
+
+
+
 }
 
 

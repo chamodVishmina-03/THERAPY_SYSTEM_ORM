@@ -126,7 +126,7 @@ public class PatientController implements Initializable {
 
 
 
-    // ===================== helper methods =====================
+
     //  load table
     private void loadTable() {
 

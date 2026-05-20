@@ -111,7 +111,7 @@ public class TherapistController implements Initializable {
                 });
     }
 
-    // ===================== Private Helper Methods =====================
+
 
     //  therapists load table
     private void loadTable() {

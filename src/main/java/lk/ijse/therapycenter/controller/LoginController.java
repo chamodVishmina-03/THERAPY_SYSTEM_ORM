@@ -39,8 +39,12 @@ public class LoginController implements Initializable {
     @FXML
     private Button btnLogin;
 
+
+
     // ===================== BO layer =====================
     private final UserBO userBO = BOFactory.getInstance().getBO(BOTypes.USER);
+
+
 
     // ===================== Initialize =====================
     @Override
@@ -78,6 +82,7 @@ public class LoginController implements Initializable {
 
         );
     }
+
 
 
 
@@ -123,7 +128,7 @@ public class LoginController implements Initializable {
 
 
 
-    // ===================== helper methods =====================
+
     private void loadDashboard(UserDTO user) {
 
         try {
