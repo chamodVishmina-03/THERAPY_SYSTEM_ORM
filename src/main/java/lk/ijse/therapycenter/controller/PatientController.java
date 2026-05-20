@@ -285,7 +285,7 @@ public class PatientController implements Initializable {
 
 
 
-       //   Clear button
+       //   clear button
     @FXML
     void btnClearOnAction(ActionEvent e) {
         clear();

@@ -15,18 +15,38 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
 
     // ===================== FXML fields =====================
-    @FXML private AnchorPane ancMainContainer;
-    @FXML private Button btnPatient;
-    @FXML private Button btnTherapist;
-    @FXML private Button btnProgram;
-    @FXML private Button btnRegistration;
-    @FXML private Button btnSession;
-    @FXML private Button btnPayment;
-    @FXML private Button btnSettings;
-    @FXML private Label lblUserInfo;
+    @FXML
+    private AnchorPane ancMainContainer;
+
+    @FXML
+    private Button btnPatient;
+
+    @FXML
+    private Button btnTherapist;
+
+    @FXML
+    private Button btnProgram;
+
+    @FXML
+    private Button btnRegistration;
+
+    @FXML
+    private Button btnSession;
+
+    @FXML
+    private Button btnPayment;
+
+    @FXML
+    private Button btnSettings;
+
+    @FXML
+    private Label lblUserInfo;
 
     //  user details
     private UserDTO currentUser;
+
+
+
 
 
     // ===================== initialize =====================
@@ -37,28 +57,40 @@ public class DashboardController implements Initializable {
     }
 
 
-    public void setCurrentUser(UserDTO user) {
-        this.currentUser = user;
-        lblUserInfo.setText("User: " + user.getUsername() + " (" + user.getRole() + ")");
 
-        // RECEPTIONIST ට Therapist සහ Program management access නෑ
+
+    public void setCurrentUser(UserDTO user) {
+
+        this.currentUser = user;
+
+        lblUserInfo.setText(
+                "User: " +
+                        user.getUsername() +
+                        " (" +
+                        user.getRole() +
+                        ")"
+        );
+
         if ("RECEPTIONIST".equals(user.getRole())) {
+
             btnTherapist.setDisable(true);
+
             btnProgram.setDisable(true);
         }
     }
 
-
-
-
     // =====================  Navigate btns =====================
 
-   //    patient manage navigate
+
+
+    //    patient manage navigate
     @FXML
     void btnPatientOnAction(ActionEvent e) {
 
         navigateTo("/view/PatientPage.fxml");
     }
+
+
 
 
     //    therapist manage navigate
@@ -67,6 +99,8 @@ public class DashboardController implements Initializable {
 
         navigateTo("/view/TherapistPage.fxml");
     }
+
+
 
 
     // Therapy program management
@@ -78,7 +112,7 @@ public class DashboardController implements Initializable {
 
 
 
-   //    Registration page
+    //    Registration page
     @FXML
     void btnRegistrationOnAction(ActionEvent e) {
 
@@ -87,12 +121,13 @@ public class DashboardController implements Initializable {
 
 
 
-    //    Therapy session scheduling page
+    //    Therapy session
     @FXML
     void btnSessionOnAction(ActionEvent e) {
 
         navigateTo("/view/TherapySessionPage.fxml");
     }
+
 
 
 
@@ -104,46 +139,83 @@ public class DashboardController implements Initializable {
     }
 
 
+
     @FXML
     void btnSettingsOnAction(ActionEvent e) {
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SettingsPage.fxml"));
+
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/view/SettingsPage.fxml")
+            );
+
             AnchorPane pane = loader.load();
 
-            // Current user info settings controller එකට pass කරනවා
-            SettingsController controller = loader.getController();
+            SettingsController controller =
+                    loader.getController();
+
             controller.setCurrentUser(currentUser);
 
-            // Main container එකේ content replace කරනවා
             ancMainContainer.getChildren().clear();
-            pane.prefWidthProperty().bind(ancMainContainer.widthProperty());
-            pane.prefHeightProperty().bind(ancMainContainer.heightProperty());
+
+            pane.prefWidthProperty().bind(
+                    ancMainContainer.widthProperty()
+            );
+
+            pane.prefHeightProperty().bind(
+                    ancMainContainer.heightProperty()
+            );
+
             ancMainContainer.getChildren().add(pane);
 
         } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, ex.getMessage()).show();
+
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    ex.getMessage()
+            ).show();
         }
     }
+
 
 
 
 
     // ===================== helper methods =====================
     private void navigateTo(String path) {
+
         try {
+
             ancMainContainer.getChildren().clear();
-            AnchorPane pane = FXMLLoader.load(getClass().getResource(path));
-            pane.prefWidthProperty().bind(ancMainContainer.widthProperty());
-            pane.prefHeightProperty().bind(ancMainContainer.heightProperty());
+
+            AnchorPane pane = FXMLLoader.load(
+                    getClass().getResource(path)
+            );
+
+            pane.prefWidthProperty().bind(
+                    ancMainContainer.widthProperty()
+            );
+
+            pane.prefHeightProperty().bind(
+                    ancMainContainer.heightProperty()
+            );
+
             ancMainContainer.getChildren().add(pane);
+
         } catch (IOException ex) {
-            new Alert(Alert.AlertType.ERROR, "Page not found: " + ex.getMessage()).show();
+
+            new Alert(
+                    Alert.AlertType.ERROR,
+                    "Page not found: " + ex.getMessage()
+            ).show();
         }
     }
-
-
-
 }
+
+
+
+
+
 
 
 

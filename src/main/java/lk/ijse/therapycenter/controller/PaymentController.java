@@ -12,70 +12,84 @@ import lk.ijse.therapycenter.bo.BOTypes;
 import lk.ijse.therapycenter.bo.custom.PaymentBO;
 import lk.ijse.therapycenter.bo.custom.RegistrationBO;
 import lk.ijse.therapycenter.dto.PaymentDTO;
+import lk.ijse.therapycenter.dto.RegistrationDTO;
 import lk.ijse.therapycenter.dto.tm.PaymentTM;
 
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
-
-
 
 public class PaymentController implements Initializable {
 
 
-    // ===================== FXML Fields =====================
+    //form fields
     @FXML
     private TextField txtId;
+
     @FXML
     private TextField txtAmount;
+
     @FXML
     private ComboBox<String> cmbRegistrationId;
+
     @FXML
     private ComboBox<String> cmbStatus;
+
     @FXML
     private DatePicker dpDate;
 
 
 
+    // buttons
+
     @FXML
     private Button btnSave;
+
     @FXML
     private Button btnUpdate;
+
     @FXML
     private Button btnClear;
 
 
 
+    // Table fileds
+
     @FXML
     private TableView<PaymentTM> tblPayment;
+
     @FXML
     private TableColumn<PaymentTM, String> colId;
+
     @FXML
     private TableColumn<PaymentTM, String> colPatient;
+
     @FXML
     private TableColumn<PaymentTM, String> colProgram;
+
     @FXML
     private TableColumn<PaymentTM, Double> colAmount;
+
     @FXML
     private TableColumn<PaymentTM, String> colDate;
+
     @FXML
     private TableColumn<PaymentTM, String> colStatus;
 
 
 
-    // ===================== BO layer =====================
-    private final PaymentBO      bo  = BOFactory.getInstance().getBO(BOTypes.PAYMENT);
+
+    // BO Layers
+    private final PaymentBO bo = BOFactory.getInstance().getBO(BOTypes.PAYMENT);
     private final RegistrationBO rbo = BOFactory.getInstance().getBO(BOTypes.REGISTRATION);
 
 
 
-
-    // ===================== initialize =====================
-
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        //     table columns
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         colProgram.setCellValueFactory(new PropertyValueFactory<>("programName"));
@@ -83,8 +97,12 @@ public class PaymentController implements Initializable {
         colDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        ObservableList<String> statusList = FXCollections.observableArrayList();
+        statusList.add("PENDING");
+        statusList.add("COMPLETED");
+        statusList.add("FAILED");
 
-        cmbStatus.setItems(FXCollections.observableArrayList("PENDING", "COMPLETED", "FAILED"));
+        cmbStatus.setItems(statusList);
         cmbStatus.setValue("COMPLETED");
 
         dpDate.setValue(LocalDate.now());
@@ -93,52 +111,81 @@ public class PaymentController implements Initializable {
         loadTable();
         generateId();
 
-
-        cmbRegistrationId.setOnAction(e -> autoFillAmount());
-
-
-        //   Table row select
-        tblPayment.getSelectionModel().selectedItemProperty().addListener((o, ov, sel) -> {
-
-
-            if (sel != null) {
-                txtId.setText(sel.getId());
-                txtAmount.setText(String.valueOf(sel.getAmount()));
-                cmbStatus.setValue(sel.getStatus());
-            }
-
+        cmbRegistrationId.setOnAction(event -> {
+            autoFillAmount();
         });
 
+        tblPayment.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, selected) -> {
+
+                    if (selected != null) {
+
+                        txtId.setText(selected.getId());
+
+                        txtAmount.setText(
+                                String.valueOf(selected.getAmount())
+                        );
+
+                        cmbStatus.setValue(selected.getStatus());
+                    }
+                }
+        );
     }
 
 
 
-    // ===================== Helper methods =====================
-
     private void autoFillAmount() {
+
         String regId = cmbRegistrationId.getValue();
+
         if (regId != null) {
+
             try {
-                rbo.getAll().stream()
-                        .filter(r -> r.getId().equals(regId))
-                        .findFirst()
-                        .ifPresent(r -> txtAmount.setText(String.valueOf(r.getFee())));
-            } catch (Exception ignored) {}
+
+                List<RegistrationDTO> registrationList = rbo.getAll();
+
+                for (int i = 0; i < registrationList.size(); i++) {
+
+                    RegistrationDTO dto = registrationList.get(i);
+
+                    if (dto.getId().equals(regId)) {
+
+                        txtAmount.setText(
+                                String.valueOf(dto.getFee())
+                        );
+
+                        break;
+                    }
+                }
+
+            } catch (Exception e) {
+
+            }
         }
     }
 
 
-    // Registration id loads
     private void loadRegCombo() {
 
         try {
-            ObservableList<String> ids = FXCollections.observableArrayList();
-            rbo.getAll().forEach(r -> ids.add(r.getId()));
+
+            ObservableList<String> ids =
+                    FXCollections.observableArrayList();
+
+            List<RegistrationDTO> registrationList = rbo.getAll();
+
+            for (int i = 0; i < registrationList.size(); i++) {
+
+                RegistrationDTO dto = registrationList.get(i);
+
+                ids.add(dto.getId());
+            }
+
             cmbRegistrationId.setItems(ids);
 
-
         } catch (Exception e) {
-            alert("Failed to load registrations: " + e.getMessage());
+
+            alert("Failed to load registrations : " + e.getMessage());
         }
     }
 
@@ -147,64 +194,81 @@ public class PaymentController implements Initializable {
     private void loadTable() {
 
         try {
-            ObservableList<PaymentTM> list = FXCollections.observableArrayList();
-            bo.getAll().forEach(d -> list.add(new PaymentTM(
-                    d.getId(),
-                    d.getPatientName(),
-                    d.getProgramName(),
-                    d.getPaymentDate().toString(),
-                    d.getStatus(),
-                    d.getAmount()
-            )));
+
+            ObservableList<PaymentTM> list =
+                    FXCollections.observableArrayList();
+
+            List<PaymentDTO> paymentList = bo.getAll();
+
+            for (int i = 0; i < paymentList.size(); i++) {
+
+                PaymentDTO dto = paymentList.get(i);
+
+                PaymentTM tm = new PaymentTM(
+                        dto.getId(),
+                        dto.getPatientName(),
+                        dto.getProgramName(),
+                        dto.getPaymentDate().toString(),
+                        dto.getStatus(),
+                        dto.getAmount()
+                );
+
+                list.add(tm);
+            }
 
             tblPayment.setItems(list);
 
-
         } catch (Exception e) {
+
             alert(e.getMessage());
         }
     }
 
-
-
-    /**    Payment id auto generate    */
+    // id generate
     private void generateId() {
 
         try {
+
             txtId.setText(bo.generateNextId());
 
-
         } catch (Exception e) {
+
             txtId.setText("PAY001");
         }
     }
 
-
     private boolean validate() {
 
         if (cmbRegistrationId.getValue() == null) {
+
             alert("Please select a registration.");
             return false;
-
         }
-
 
         try {
 
-            double amount = Double.parseDouble(txtAmount.getText().trim());
-            if (amount <= 0) throw new Exception();
+            double amount =
+                    Double.parseDouble(txtAmount.getText().trim());
 
+            if (amount <= 0) {
+
+                alert("Please enter a valid payment amount.");
+                return false;
+            }
 
         } catch (Exception e) {
+
             alert("Please enter a valid payment amount.");
             return false;
         }
+
         return true;
     }
 
 
 
     private PaymentDTO getData() {
+
         return new PaymentDTO(
                 txtId.getText().trim(),
                 cmbRegistrationId.getValue(),
@@ -217,109 +281,91 @@ public class PaymentController implements Initializable {
     }
 
 
-
-    //  fields clear
+    //clear fields
     private void clear() {
 
         cmbRegistrationId.setValue(null);
-        txtAmount.clear();
-        cmbStatus.setValue("COMPLETED");
-        dpDate.setValue(LocalDate.now());
-        tblPayment.getSelectionModel().clearSelection();
 
+        txtAmount.clear();
+
+        cmbStatus.setValue("COMPLETED");
+
+        dpDate.setValue(LocalDate.now());
+
+        tblPayment.getSelectionModel().clearSelection();
     }
 
 
 
 
-
-
-
-    // =====================         Alerts     =====================
     private void alert(String message) {
 
         new Alert(Alert.AlertType.ERROR, message).show();
     }
 
-
-    private void info(String message)  {
+    private void info(String message) {
 
         new Alert(Alert.AlertType.INFORMATION, message).show();
-
     }
 
 
 
 
-
-
-
-
-    // ===================== Button Actions =====================
-
-    //  Save  button
     @FXML
-    void btnSaveOnAction(ActionEvent e) {
-        if (!validate()) return;
+    void btnSaveOnAction(ActionEvent event) {
+
+        if (!validate()) {
+            return;
+        }
+
         try {
 
             bo.save(getData());
+
             info("Payment processed successfully!");
+
             clear();
+
             loadTable();
+
             generateId();
 
+        } catch (Exception e) {
 
-        } catch (Exception ex) {
-            alert(ex.getMessage());
+            alert(e.getMessage());
         }
     }
 
-
-
-    //   Update button
     @FXML
-    void btnUpdateOnAction(ActionEvent e) {
+    void btnUpdateOnAction(ActionEvent event) {
 
-        if (!validate()) return;
+        if (!validate()) {
+            return;
+        }
+
         try {
+
             bo.update(getData());
+
             info("Payment updated successfully!");
+
             clear();
+
             loadTable();
 
+        } catch (Exception e) {
 
-        } catch (Exception ex) {
-            alert(ex.getMessage());
+            alert(e.getMessage());
         }
     }
 
 
 
-
-    //    Clear button
     @FXML
-    void btnClearOnAction(ActionEvent e) {
+    void btnClearOnAction(ActionEvent event) {
+
         clear();
+
         generateId();
-
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

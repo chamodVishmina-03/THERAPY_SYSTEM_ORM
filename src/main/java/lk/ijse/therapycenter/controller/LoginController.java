@@ -97,11 +97,10 @@ public class LoginController implements Initializable {
                     txtUsername.getText().trim(),
                     txtPassword.getText()
             );
-            // Login successful නම් dashboard load කරනවා
+
             user.ifPresent(this::loadDashboard);
 
         } catch (LoginException ex) {
-            // Invalid credentials — error message show කරනවා
             lblError.setText(ex.getMessage());
             lblError.setVisible(true);
         }
