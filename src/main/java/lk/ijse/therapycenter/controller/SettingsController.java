@@ -19,35 +19,39 @@ import java.util.ResourceBundle;
 
 public class SettingsController implements Initializable {
 
-
-
-
     // ===================== FXML Fields =====================
     @FXML
-    private TextField     txtCurrentUsername;
+    private TextField txtCurrentUsername;
+
     @FXML
-    private TextField     txtNewUsername;
+    private TextField txtNewUsername;
+
     @FXML
     private PasswordField txtNewPassword;
+
     @FXML
-    private TextField     txtNewPasswordVisible;
+    private TextField txtNewPasswordVisible;
+
     @FXML
     private PasswordField txtConfirmPassword;
+
     @FXML
-    private CheckBox      chkShowPassword;
-    @FXML
-    private Button        btnUpdate;
-    @FXML
-    private Button        btnLogout;
-    @FXML
-    private Label         lblMessage;
+    private CheckBox chkShowPassword;
 
 
 
+
+    @FXML
+    private Button btnUpdate;
+
+    @FXML
+    private Button btnLogout;
+
+    @FXML
+    private Label lblMessage;
 
     // ===================== BO layer =====================
     private final UserBO bo = BOFactory.getInstance().getBO(BOTypes.USER);
-
     private UserDTO currentUser;
 
 
@@ -56,30 +60,37 @@ public class SettingsController implements Initializable {
     // ===================== Initialize =====================
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         lblMessage.setVisible(false);
         txtNewPasswordVisible.setVisible(false);
         txtNewPasswordVisible.managedProperty().bind(txtNewPasswordVisible.visibleProperty());
 
+        txtNewPassword.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
 
-        txtNewPassword.textProperty().addListener((o, ov, nv) -> {
-            if (!txtNewPasswordVisible.getText().equals(nv)) {
-                txtNewPasswordVisible.setText(nv);
-            }
-        });
+                    if (!txtNewPasswordVisible.getText().equals(newValue)) {
 
+                        txtNewPasswordVisible.setText(newValue);
+                    }
+                }
+        );
 
-        txtNewPasswordVisible.textProperty().addListener((o, ov, nv) -> {
-            if (!txtNewPassword.getText().equals(nv)) {
-                txtNewPassword.setText(nv);
-            }
-        });
+        txtNewPasswordVisible.textProperty().addListener(
+                (observable, oldValue, newValue) -> {
+
+                    if (!txtNewPassword.getText().equals(newValue)) {
+                        txtNewPassword.setText(newValue);
+                    }
+                }
+        );
     }
 
-
     public void setCurrentUser(UserDTO user) {
+
         this.currentUser = user;
         txtCurrentUsername.setText(user.getUsername());
         txtNewUsername.setText(user.getUsername());
+
     }
 
 
@@ -88,10 +99,13 @@ public class SettingsController implements Initializable {
     //============ check password================
     @FXML
     void chkShowPasswordOnAction(ActionEvent e) {
+
         boolean show = chkShowPassword.isSelected();
         txtNewPassword.setVisible(!show);
         txtNewPasswordVisible.setVisible(show);
+
     }
+
 
 
     //============   Update password================
@@ -101,14 +115,11 @@ public class SettingsController implements Initializable {
         if (!txtNewPassword.getText().equals(txtConfirmPassword.getText())) {
 
             showMessage("Passwords do not match!", true);
-            return;
 
+            return;
         }
 
-
-
         try {
-
 
             bo.updateCredentials(
                     currentUser.getUsername(),
@@ -116,34 +127,37 @@ public class SettingsController implements Initializable {
                     txtNewPassword.getText()
             );
 
-
             currentUser.setUsername(txtNewUsername.getText().trim());
-            txtCurrentUsername.setText(currentUser.getUsername());
-            showMessage("Credentials updated successfully!", false);
 
+            txtCurrentUsername.setText(currentUser.getUsername());
+
+            showMessage(
+                    "Credentials updated successfully!",
+                    false
+            );
 
         } catch (LoginException ex) {
+
             showMessage(ex.getMessage(), true);
         }
-
-
     }
-
-
-
 
     //============   Logout btn  ================
     @FXML
     void btnLogoutOnAction(ActionEvent e) {
+
         try {
-            Stage stage = (Stage) btnLogout.getScene().getWindow();
-            stage.setScene(new Scene(
-                    new FXMLLoader(getClass().getResource("/view/LoginPage.fxml")).load()
-            ));
+
+            Stage stage =(Stage) btnLogout.getScene().getWindow();
+
+            stage.setScene(new Scene(new FXMLLoader(getClass().getResource("/view/LoginPage.fxml")).load()));
+
             stage.setTitle("Serenity Mental Health Therapy Center");
             stage.setResizable(false);
             stage.setMaximized(false);
+
         } catch (IOException ex) {
+
             new Alert(Alert.AlertType.ERROR, "Logout failed: " + ex.getMessage()).show();
         }
     }
@@ -153,25 +167,17 @@ public class SettingsController implements Initializable {
     private void showMessage(String message, boolean isError) {
 
         lblMessage.setText(message);
-        lblMessage.setStyle(isError ? "-fx-text-fill: red;" : "-fx-text-fill: green;");
-        lblMessage.setVisible(true);
 
+        lblMessage.setStyle(
+                isError
+                        ? "-fx-text-fill: red;"
+                        : "-fx-text-fill: green;"
+        );
+
+        lblMessage.setVisible(true);
     }
 
 
 
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
