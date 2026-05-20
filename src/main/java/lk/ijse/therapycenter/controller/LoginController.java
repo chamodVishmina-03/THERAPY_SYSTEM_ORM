@@ -40,8 +40,7 @@ public class LoginController implements Initializable {
     private Button btnLogin;
 
     // ===================== BO layer =====================
-    private final UserBO userBO =
-            BOFactory.getInstance().getBO(BOTypes.USER);
+    private final UserBO userBO = BOFactory.getInstance().getBO(BOTypes.USER);
 
     // ===================== Initialize =====================
     @Override

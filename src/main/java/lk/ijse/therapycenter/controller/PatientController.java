@@ -16,30 +16,42 @@ import lk.ijse.therapycenter.dto.tm.PatientTM;
 import lk.ijse.therapycenter.util.ValidationUtil;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PatientController implements Initializable {
 
     // =====================  FXML fields ================
-    @FXML private TextField txtId;
-    @FXML private TextField txtName;
-    @FXML private TextField txtEmail;
-    @FXML private TextField txtPhone;
-    @FXML private TextField txtAddress;
-    @FXML private TextArea txtMedicalHistory;
+    @FXML
+    private TextField txtId;
 
+    @FXML
+    private TextField txtName;
 
+    @FXML
+    private TextField txtEmail;
+
+    @FXML
+    private TextField txtPhone;
+
+    @FXML
+    private TextField txtAddress;
+
+    @FXML
+    private TextArea txtMedicalHistory;
 
     @FXML
     private Button btnSave;
+
     @FXML
     private Button btnUpdate;
+
     @FXML
     private Button btnDelete;
+
     @FXML
     private Button btnClear;
-
 
     // ===================== tble column ==================
     @FXML
@@ -60,81 +72,105 @@ public class PatientController implements Initializable {
 
 
 
+
+
+
+
     // ===================== BO layer
     private final PatientBO bo = BOFactory.getInstance().getBO(BOTypes.PATIENT);
 
-
-
-
-    // =====================  initialize
+                    //  initialize
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // table columns
+
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
         colHistory.setCellValueFactory(new PropertyValueFactory<>("medicalHistory"));
-
-        // loading data and  Id generate
         loadTable();
         generateId();
 
+        tblPatient.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((ObservableValue<? extends PatientTM> observable, PatientTM oldValue, PatientTM selectedItem) -> {
 
-        // table row select
-        tblPatient.getSelectionModel().selectedItemProperty().addListener(
+                            if (selectedItem != null) {
+                                txtId.setText(selectedItem.getId());
+                                txtName.setText(selectedItem.getName());
+                                txtEmail.setText(selectedItem.getEmail());
+                                txtPhone.setText(selectedItem.getPhone());
+                                txtAddress.setText(selectedItem.getAddress());
 
-                (ObservableValue<? extends PatientTM> o, PatientTM oldValue, PatientTM selectedItem) -> {
-                    if (selectedItem != null) {
-                        txtId.setText(selectedItem.getId());
-                        txtName.setText(selectedItem.getName());
-                        txtEmail.setText(selectedItem.getEmail());
-                        txtPhone.setText(selectedItem.getPhone());
-                        txtAddress.setText(selectedItem.getAddress());
+                                try {
 
+                                    Optional<PatientDTO> result =
+                                            bo.findById(selectedItem.getId());
 
-                        try {
-                            Optional<PatientDTO> result = bo.findById(selectedItem.getId());
-                            if (result.isPresent()) {
-                                txtMedicalHistory.setText(result.get().getMedicalHistory());
+                                    if (result.isPresent()) {
+                                        txtMedicalHistory.setText(result.get().getMedicalHistory());
+                                    }
+
+                                } catch (Exception e) {
+
+                                }
                             }
-                        } catch (Exception ignored) {}
-                    }
-                }
-        );
-
-
+                        }
+                );
     }
+
+
 
 
 
 
 
     // ===================== helper methods =====================
-     //  load table
+    //  load table
     private void loadTable() {
+
         try {
-            ObservableList<PatientTM> list = FXCollections.observableArrayList();
-            bo.getAll().forEach(d -> list.add(new PatientTM(
-                    d.getId(),
-                    d.getName(),
-                    d.getEmail(),
-                    d.getPhone(),
-                    d.getAddress(),
-                    d.getMedicalHistory()
-            )));
+
+            ObservableList<PatientTM> list =
+                    FXCollections.observableArrayList();
+
+            List<PatientDTO> patientList = bo.getAll();
+
+            for (int i = 0; i < patientList.size(); i++) {
+
+                PatientDTO dto = patientList.get(i);
+
+                PatientTM tm = new PatientTM(
+                        dto.getId(),
+                        dto.getName(),
+                        dto.getEmail(),
+                        dto.getPhone(),
+                        dto.getAddress(),
+                        dto.getMedicalHistory()
+                );
+
+                list.add(tm);
+            }
+
             tblPatient.setItems(list);
+
         } catch (Exception e) {
+
             alert(e.getMessage());
         }
     }
 
 
+
     private void generateId() {
+
         try {
+
             txtId.setText(bo.generateNextId());
+
         } catch (Exception e) {
+
             txtId.setText("PAT001");
         }
     }
@@ -142,24 +178,30 @@ public class PatientController implements Initializable {
 
 
     private boolean validate() {
-        if (!ValidationUtil.isValidName(txtName.getText())) {
 
+        if (!ValidationUtil.isValidName(txtName.getText())) {
             alert("Invalid name. Letters only.");
             return false;
+
         }
+
         if (!ValidationUtil.isValidEmail(txtEmail.getText())) {
             alert("Invalid email format.");
             return false;
+
         }
+
         if (!ValidationUtil.isValidPhone(txtPhone.getText())) {
             alert("Invalid phone. Use 0XXXXXXXXX or +94XXXXXXXXX");
             return false;
+
         }
+
         return true;
     }
 
-
     private PatientDTO getData() {
+
         return new PatientDTO(
                 txtId.getText().trim(),
                 txtName.getText().trim(),
@@ -168,14 +210,11 @@ public class PatientController implements Initializable {
                 txtAddress.getText().trim(),
                 txtMedicalHistory.getText().trim()
         );
-
-
     }
 
 
 
-
-   //   fields clear
+    //   fields clear
     private void clear() {
         txtName.clear();
         txtEmail.clear();
@@ -183,18 +222,17 @@ public class PatientController implements Initializable {
         txtAddress.clear();
         txtMedicalHistory.clear();
         tblPatient.getSelectionModel().clearSelection();
+
     }
 
 
 
-
-    // ===================== Alert methods
+    // ===========  alert methods
     // error alert
     private void alert(String message) {
 
         new Alert(Alert.AlertType.ERROR, message).show();
     }
-
 
     //  success alert
     private void info(String message) {
@@ -202,12 +240,15 @@ public class PatientController implements Initializable {
         new Alert(Alert.AlertType.INFORMATION, message).show();
     }
 
-
     // conform dialog
     private boolean confirm(String message) {
-        return new Alert(Alert.AlertType.CONFIRMATION, message)
+
+        return new Alert(
+                Alert.AlertType.CONFIRMATION,
+                message
+        )
                 .showAndWait()
-                .filter(b -> b == ButtonType.OK)
+                .filter(button -> button == ButtonType.OK)
                 .isPresent();
     }
 
@@ -216,55 +257,66 @@ public class PatientController implements Initializable {
 
 
 
-
-
-    // ===================== Buttons =====================
+    // ===========    Buttons       ====================
 
     //  Save button
     @FXML
     void btnSaveOnAction(ActionEvent e) {
-        if (!validate()) return;
+
+        if (!validate()) {
+            return;
+        }
 
         try {
+
             bo.save(getData());
             info("Patient saved successfully!");
             clear();
             loadTable();
             generateId();
 
-
         } catch (Exception ex) {
+
             alert(ex.getMessage());
         }
-
-
     }
 
 
 
-        //    Update button
+    //    Update button
     @FXML
     void btnUpdateOnAction(ActionEvent e) {
-        if (!validate()) return;
+
+        if (!validate()) {
+            return;
+        }
+
         try {
             bo.update(getData());
             info("Patient updated successfully!");
             clear();
             loadTable();
+
         } catch (Exception ex) {
+
             alert(ex.getMessage());
         }
     }
+
 
 
 
     //      delete button
     @FXML
     void btnDeleteOnAction(ActionEvent e) {
+
         if (txtId.getText().isEmpty()) {
+
             alert("Please select a patient from the table.");
+
             return;
         }
+
         if (confirm("Are you sure you want to delete patient " + txtId.getText() + "?")) {
 
             try {
@@ -275,17 +327,14 @@ public class PatientController implements Initializable {
                 loadTable();
                 generateId();
 
-
             } catch (Exception ex) {
+
                 alert(ex.getMessage());
             }
         }
     }
 
-
-
-
-       //   clear button
+    //   clear button
     @FXML
     void btnClearOnAction(ActionEvent e) {
         clear();
@@ -294,12 +343,4 @@ public class PatientController implements Initializable {
 
 
 
-
-
-
 }
-
-
-
-
-
