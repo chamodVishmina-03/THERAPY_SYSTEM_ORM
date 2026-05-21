@@ -15,20 +15,15 @@ public class FactoryConfiguration {
 
 
     private FactoryConfiguration() {
+
         Configuration configuration = new Configuration();
 
 
 
-        //property file configuration
+                  //property file configuration
         configuration.addProperties(loadHibernateProperties());
 
-
-
-
-
-
-
-        //   entity classes
+                   //   entity classes
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Therapist.class);
         configuration.addAnnotatedClass(TherapyProgram.class);
