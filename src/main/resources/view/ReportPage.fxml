@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="lk.ijse.therapycenter.controller.ReportController"
+            prefHeight="700.0"
+            prefWidth="1200.0"
+            style="-fx-background-color: #f4f6f9;">
+
+    <children>
+
+        <VBox spacing="20"
+              AnchorPane.topAnchor="15"
+              AnchorPane.leftAnchor="15"
+              AnchorPane.rightAnchor="15"
+              AnchorPane.bottomAnchor="15">
+
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="Financial Report"
+                   style="-fx-font-size: 24px;
+                          -fx-font-weight: bold;"/>
+
+            <HBox spacing="20">
+
+                <!-- Total Revenue Card -->
+                <AnchorPane prefWidth="250"
+                            prefHeight="120"
+                            style="-fx-background-color: white;
+                                   -fx-background-radius: 15;">
+
+                    <children>
+
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              AnchorPane.topAnchor="20"
+                              AnchorPane.bottomAnchor="20"
+                              AnchorPane.leftAnchor="20"
+                              AnchorPane.rightAnchor="20">
+
+                            <Label text="Total Revenue"
+                                   style="-fx-font-size: 16px;"/>
+
+                            <Label fx:id="lblTotalRevenue"
+                                   text="LKR 0.00"
+                                   style="-fx-font-size: 30px;
+                                          -fx-font-weight: bold;
+                                          -fx-text-fill: #27ae60;"/>
+
+                        </VBox>
+
+                    </children>
+
+                </AnchorPane>
+
+                <AnchorPane prefWidth="250"
+                            prefHeight="120"
+                            style="-fx-background-color: white;
+                                   -fx-background-radius: 15;">
+
+                    <children>
+
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              AnchorPane.topAnchor="20"
+                              AnchorPane.bottomAnchor="20"
+                              AnchorPane.leftAnchor="20"
+                              AnchorPane.rightAnchor="20">
+
+                            <Label text="Completed Payments"
+                                   style="-fx-font-size: 16px;"/>
+
+                            <Label fx:id="lblCompletedPayments"
+                                   text="0"
+                                   style="-fx-font-size: 30px;
+                                          -fx-font-weight: bold;
+                                          -fx-text-fill: #27ae60;"/>
+
+                        </VBox>
+
+                    </children>
+
+                </AnchorPane>
+
+
+                <AnchorPane prefWidth="250"
+                            prefHeight="120"
+                            style="-fx-background-color: white;
+                                   -fx-background-radius: 15;">
+
+                    <children>
+
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              AnchorPane.topAnchor="20"
+                              AnchorPane.bottomAnchor="20"
+                              AnchorPane.leftAnchor="20"
+                              AnchorPane.rightAnchor="20">
+
+                            <Label text="Pending Payments"
+                                   style="-fx-font-size: 16px;"/>
+
+                            <Label fx:id="lblPendingPayments"
+                                   text="0"
+                                   style="-fx-font-size: 30px;
+                                          -fx-font-weight: bold;
+                                          -fx-text-fill: #e67e22;"/>
+
+                        </VBox>
+
+                    </children>
+
+                </AnchorPane>
+
+            </HBox>
+
+            <Label text="Payment Tracking"
+                   style="-fx-font-size: 18px;
+                          -fx-font-weight: bold;"/>
+
+            <TableView fx:id="tblReport"
+                       prefHeight="500">
+
+                <columns>
+
+                    <TableColumn fx:id="colPatient"
+                                 prefWidth="250"
+                                 text="Patient"/>
+
+                    <TableColumn fx:id="colProgram"
+                                 prefWidth="250"
+                                 text="Program"/>
+
+                    <TableColumn fx:id="colAmount"
+                                 prefWidth="180"
+                                 text="Amount (LKR)"/>
+
+                    <TableColumn fx:id="colDate"
+                                 prefWidth="180"
+                                 text="Date"/>
+
+                    <TableColumn fx:id="colStatus"
+                                 prefWidth="180"
+                                 text="Status"/>
+
+                </columns>
+
+            </TableView>
+
+        </VBox>
+
+    </children>
+
+</AnchorPane>

@@ -139,6 +139,12 @@ public class DashboardController implements Initializable {
     }
 
 
+    @FXML
+    void btnReportOnAction(ActionEvent e) {
+
+        navigateTo("/view/ReportPage.fxml");
+    }
+
 
     @FXML
     void btnSettingsOnAction(ActionEvent e) {
@@ -151,8 +157,7 @@ public class DashboardController implements Initializable {
 
             AnchorPane pane = loader.load();
 
-            SettingsController controller =
-                    loader.getController();
+            SettingsController controller = loader.getController();
 
             controller.setCurrentUser(currentUser);
 
@@ -176,7 +181,6 @@ public class DashboardController implements Initializable {
             ).show();
         }
     }
-
 
 
 

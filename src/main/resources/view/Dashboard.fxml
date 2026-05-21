@@ -46,6 +46,11 @@
             <opaqueInsets>
                <Insets />
             </opaqueInsets></Button>
+         <Button fx:id="btnReport" contentDisplay="CENTER" layoutX="20.0" layoutY="292.0" maxWidth="Infinity" onAction="#btnReportOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Reports">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+         </Button>
             <Region prefHeight="33.0" prefWidth="179.0" VBox.vgrow="ALWAYS" />
             <Button fx:id="btnSettings" maxWidth="Infinity" onAction="#btnSettingsOnAction" style="-fx-background-color: #089ac7; -fx-text-fill: white; -fx-alignment: center-left; -fx-padding: 10;" text="Settings" />
             <Label fx:id="lblUserInfo" style="-fx-text-fill:#aaa;-fx-font-size:10px;-fx-padding:5 0;" text="User" wrapText="true" />
