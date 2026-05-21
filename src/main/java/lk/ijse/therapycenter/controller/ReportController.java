@@ -31,6 +31,8 @@ public class ReportController implements Initializable {
     @FXML
     private TableView<PaymentTM> tblReport;
 
+
+
     @FXML
     private TableColumn<PaymentTM, String> colPatient;
 
@@ -46,43 +48,33 @@ public class ReportController implements Initializable {
     @FXML
     private TableColumn<PaymentTM, String> colStatus;
 
-    private final PaymentBO bo =
-            BOFactory.getInstance().getBO(BOTypes.PAYMENT);
+
+
+
+    private final PaymentBO bo = BOFactory.getInstance().getBO(BOTypes.PAYMENT);
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        colPatient.setCellValueFactory(
-                new PropertyValueFactory<>("patientName")
-        );
-
-        colProgram.setCellValueFactory(
-                new PropertyValueFactory<>("programName")
-        );
-
-        colAmount.setCellValueFactory(
-                new PropertyValueFactory<>("amount")
-        );
-
-        colDate.setCellValueFactory(
-                new PropertyValueFactory<>("paymentDate")
-        );
-
-        colStatus.setCellValueFactory(
-                new PropertyValueFactory<>("status")
-        );
+        colPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        colProgram.setCellValueFactory(new PropertyValueFactory<>("programName"));
+        colAmount.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("paymentDate"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
         loadTable();
-
         loadSummary();
     }
 
+
+
+    // load table
     private void loadTable() {
 
         try {
 
-            ObservableList<PaymentTM> list =
-                    FXCollections.observableArrayList();
+            ObservableList<PaymentTM> list = FXCollections.observableArrayList();
 
             for (PaymentDTO d : bo.getAll()) {
 
@@ -106,43 +98,60 @@ public class ReportController implements Initializable {
         }
     }
 
+
+
+
     private void loadSummary() {
 
         try {
 
             double totalRevenue = 0;
-
             int completedCount = 0;
-
             int pendingCount = 0;
 
-            for (PaymentDTO d : bo.getAll()) {
 
+            for (PaymentDTO d : bo.getAll()) {
                 totalRevenue += d.getAmount();
 
-                if (d.getStatus().equalsIgnoreCase("COMPLETED")) {
 
+                if (d.getStatus().equalsIgnoreCase("COMPLETED")) {
                     completedCount++;
 
-                } else if (d.getStatus().equalsIgnoreCase("PENDING")) {
 
+                } else if (d.getStatus().equalsIgnoreCase("PENDING")) {
                     pendingCount++;
                 }
             }
 
+
             lblTotalRevenue.setText("LKR " + totalRevenue);
+            lblCompletedPayments.setText(String.valueOf(completedCount));
+            lblPendingPayments.setText(String.valueOf(pendingCount));
 
-            lblCompletedPayments.setText(
-                    String.valueOf(completedCount)
-            );
 
-            lblPendingPayments.setText(
-                    String.valueOf(pendingCount)
-            );
+
 
         } catch (Exception e) {
 
             e.printStackTrace();
         }
     }
+
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
