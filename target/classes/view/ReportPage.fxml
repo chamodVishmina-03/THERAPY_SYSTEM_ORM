@@ -8,54 +8,30 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="lk.ijse.therapycenter.controller.ReportController"
-            prefHeight="700.0"
-            prefWidth="1200.0"
-            style="-fx-background-color: #f4f6f9;">
+<AnchorPane prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.therapycenter.controller.ReportController">
 
     <children>
 
-        <VBox spacing="20"
-              AnchorPane.topAnchor="15"
-              AnchorPane.leftAnchor="15"
-              AnchorPane.rightAnchor="15"
-              AnchorPane.bottomAnchor="15">
+        <VBox spacing="20" AnchorPane.bottomAnchor="15" AnchorPane.leftAnchor="15" AnchorPane.rightAnchor="15" AnchorPane.topAnchor="15">
 
             <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
+                <Insets bottom="10" left="10" right="10" top="10" />
             </padding>
 
-            <Label text="Financial Report"
-                   style="-fx-font-size: 24px;
-                          -fx-font-weight: bold;"/>
+            <Label prefHeight="35.0" prefWidth="262.0" style="-fx-font-size: 24px;                           -fx-font-weight: bold;" text="Payment Report" />
 
             <HBox spacing="20">
 
                 <!-- Total Revenue Card -->
-                <AnchorPane prefWidth="250"
-                            prefHeight="120"
-                            style="-fx-background-color: white;
-                                   -fx-background-radius: 15;">
+                <AnchorPane prefHeight="120" prefWidth="250" style="-fx-background-color: white;                                    -fx-background-radius: 15;">
 
                     <children>
 
-                        <VBox alignment="CENTER"
-                              spacing="10"
-                              AnchorPane.topAnchor="20"
-                              AnchorPane.bottomAnchor="20"
-                              AnchorPane.leftAnchor="20"
-                              AnchorPane.rightAnchor="20">
+                        <VBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
 
-                            <Label text="Total Revenue"
-                                   style="-fx-font-size: 16px;"/>
+                            <Label style="-fx-font-size: 16px;" text="Total Revenue" />
 
-                            <Label fx:id="lblTotalRevenue"
-                                   text="LKR 0.00"
-                                   style="-fx-font-size: 30px;
-                                          -fx-font-weight: bold;
-                                          -fx-text-fill: #27ae60;"/>
+                            <Label fx:id="lblTotalRevenue" style="-fx-font-size: 30px;                                           -fx-font-weight: bold;                                           -fx-text-fill: #27ae60;" text="LKR 0.00" />
 
                         </VBox>
 
@@ -63,28 +39,15 @@
 
                 </AnchorPane>
 
-                <AnchorPane prefWidth="250"
-                            prefHeight="120"
-                            style="-fx-background-color: white;
-                                   -fx-background-radius: 15;">
+                <AnchorPane prefHeight="120" prefWidth="250" style="-fx-background-color: white;                                    -fx-background-radius: 15;">
 
                     <children>
 
-                        <VBox alignment="CENTER"
-                              spacing="10"
-                              AnchorPane.topAnchor="20"
-                              AnchorPane.bottomAnchor="20"
-                              AnchorPane.leftAnchor="20"
-                              AnchorPane.rightAnchor="20">
+                        <VBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
 
-                            <Label text="Completed Payments"
-                                   style="-fx-font-size: 16px;"/>
+                            <Label style="-fx-font-size: 16px;" text="Completed Payments" />
 
-                            <Label fx:id="lblCompletedPayments"
-                                   text="0"
-                                   style="-fx-font-size: 30px;
-                                          -fx-font-weight: bold;
-                                          -fx-text-fill: #27ae60;"/>
+                            <Label fx:id="lblCompletedPayments" style="-fx-font-size: 30px;                                           -fx-font-weight: bold;                                           -fx-text-fill: #27ae60;" text="0" />
 
                         </VBox>
 
@@ -93,28 +56,15 @@
                 </AnchorPane>
 
 
-                <AnchorPane prefWidth="250"
-                            prefHeight="120"
-                            style="-fx-background-color: white;
-                                   -fx-background-radius: 15;">
+                <AnchorPane prefHeight="120" prefWidth="250" style="-fx-background-color: white;                                    -fx-background-radius: 15;">
 
                     <children>
 
-                        <VBox alignment="CENTER"
-                              spacing="10"
-                              AnchorPane.topAnchor="20"
-                              AnchorPane.bottomAnchor="20"
-                              AnchorPane.leftAnchor="20"
-                              AnchorPane.rightAnchor="20">
+                        <VBox alignment="CENTER" spacing="10" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20" AnchorPane.topAnchor="20">
 
-                            <Label text="Pending Payments"
-                                   style="-fx-font-size: 16px;"/>
+                            <Label style="-fx-font-size: 16px;" text="Pending Payments" />
 
-                            <Label fx:id="lblPendingPayments"
-                                   text="0"
-                                   style="-fx-font-size: 30px;
-                                          -fx-font-weight: bold;
-                                          -fx-text-fill: #e67e22;"/>
+                            <Label fx:id="lblPendingPayments" style="-fx-font-size: 30px;                                           -fx-font-weight: bold;                                           -fx-text-fill: #e67e22;" text="0" />
 
                         </VBox>
 
@@ -124,34 +74,21 @@
 
             </HBox>
 
-            <Label text="Payment Tracking"
-                   style="-fx-font-size: 18px;
-                          -fx-font-weight: bold;"/>
+            <Label style="-fx-font-size: 18px;                           -fx-font-weight: bold;" text="Payment : " />
 
-            <TableView fx:id="tblReport"
-                       prefHeight="500">
+            <TableView fx:id="tblReport" prefHeight="500">
 
                 <columns>
 
-                    <TableColumn fx:id="colPatient"
-                                 prefWidth="250"
-                                 text="Patient"/>
+                    <TableColumn fx:id="colPatient" prefWidth="250" text="Patient" />
 
-                    <TableColumn fx:id="colProgram"
-                                 prefWidth="250"
-                                 text="Program"/>
+                    <TableColumn fx:id="colProgram" prefWidth="250" text="Program" />
 
-                    <TableColumn fx:id="colAmount"
-                                 prefWidth="180"
-                                 text="Amount (LKR)"/>
+                    <TableColumn fx:id="colAmount" prefWidth="180" text="Amount (LKR)" />
 
-                    <TableColumn fx:id="colDate"
-                                 prefWidth="180"
-                                 text="Date"/>
+                    <TableColumn fx:id="colDate" prefWidth="180" text="Date" />
 
-                    <TableColumn fx:id="colStatus"
-                                 prefWidth="180"
-                                 text="Status"/>
+                    <TableColumn fx:id="colStatus" prefWidth="180" text="Status" />
 
                 </columns>
 

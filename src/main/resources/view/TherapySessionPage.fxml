@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-padding:20;-fx-background-color:#f0f4f8;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="lk.ijse.therapycenter.controller.TherapySessionController">
+<AnchorPane style="-fx-padding:20;-fx-background-color:#f0f4f8;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.therapycenter.controller.TherapySessionController">
     <VBox spacing="15" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
       <Label text="Therapy Session Scheduling">
          <font>
@@ -35,7 +35,7 @@
             <Label text="Date: " GridPane.columnIndex="0" GridPane.rowIndex="4" />
             <DatePicker fx:id="dpDate" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Time : " GridPane.columnIndex="0" GridPane.rowIndex="5" />
-            <TextField fx:id="txtTime" promptText=" (HH:MM:SS)" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtTime" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label text="Status:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
             <ComboBox fx:id="cmbStatus" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="6" />
          <rowConstraints>
